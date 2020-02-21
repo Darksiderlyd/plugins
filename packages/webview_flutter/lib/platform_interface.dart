@@ -168,12 +168,6 @@ abstract class WebViewPlatformController {
     throw UnimplementedError(
         "WebView getTitle is not implemented on the current platform");
   }
-
-  Future<List<Cookie>> getCookies(String url);
-
-  Future<void> setCookies(String url, List<Cookie> cookies);
-
-  Future<bool> clearCookies();
 }
 
 /// A single setting for configuring a WebViewPlatform which may be absent.
@@ -337,12 +331,6 @@ typedef WebViewPlatformCreatedCallback = void Function(
 /// [AndroidWebViewPlatform] and [CupertinoWebViewPlatform] are the default implementations
 /// for Android and iOS respectively.
 abstract class WebViewPlatform {
-
-  /// The current [WebViewPlatformController] instance.
-  ///
-  /// This is set in the [build] method before the `WebViewPlatformCreatedCallback` is called.
-  WebViewPlatformController platformController;
-
   /// Builds a new WebView.
   ///
   /// Returns a Widget tree that embeds the created webview.
