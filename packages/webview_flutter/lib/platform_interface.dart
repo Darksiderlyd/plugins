@@ -168,6 +168,12 @@ abstract class WebViewPlatformController {
     throw UnimplementedError(
         "WebView getTitle is not implemented on the current platform");
   }
+
+  Future<List<Cookie>> getCookies(String url);
+
+  Future<void> setCookies(String url, List<Cookie> cookies);
+
+  Future<bool> clearCookies();
 }
 
 /// A single setting for configuring a WebViewPlatform which may be absent.
