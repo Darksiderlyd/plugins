@@ -125,7 +125,7 @@ class MethodChannelWebViewPlatform implements WebViewPlatformController {
       },
     );
     return cookieHeader.trim().split(_cookieSeparator).map((String cookie) {
-      final List<String> parts = cookie.split(_cookie`KeyValSeparator);
+      final List<String> parts = cookie.split(_cookieKeyValSeparator);
       return Cookie(parts[0], parts[1])..httpOnly = false;
     }).toList(growable: false);
   }
