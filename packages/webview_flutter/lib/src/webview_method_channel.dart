@@ -112,6 +112,9 @@ class MethodChannelWebViewPlatform implements WebViewPlatformController {
   @override
   Future<String> getTitle() => _channel.invokeMethod<String>("getTitle");
 
+  final RegExp _cookieSeparator = RegExp(r';\s*');
+  final RegExp _cookieKeyValSeparator = RegExp(r'={1}');
+
   /// Method channel implementation for [WebViewPlatform.getCookies].
   @override
   Future<List<Cookie>> getCookies(String url) async {
@@ -122,7 +125,7 @@ class MethodChannelWebViewPlatform implements WebViewPlatformController {
       },
     );
     return cookieHeader.trim().split(_cookieSeparator).map((String cookie) {
-      final List<String> parts = cookie.split(_cookieKeyValSeparator);
+      final List<String> parts = cookie.split(_cookie`KeyValSeparator);
       return Cookie(parts[0], parts[1])..httpOnly = false;
     }).toList(growable: false);
   }

@@ -337,6 +337,12 @@ typedef WebViewPlatformCreatedCallback = void Function(
 /// [AndroidWebViewPlatform] and [CupertinoWebViewPlatform] are the default implementations
 /// for Android and iOS respectively.
 abstract class WebViewPlatform {
+
+  /// The current [WebViewPlatformController] instance.
+  ///
+  /// This is set in the [build] method before the `WebViewPlatformCreatedCallback` is called.
+  WebViewPlatformController platformController;
+
   /// Builds a new WebView.
   ///
   /// Returns a Widget tree that embeds the created webview.

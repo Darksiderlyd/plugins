@@ -19,6 +19,10 @@ import 'webview_method_channel.dart';
 /// a [UiKitView] to embed the webview in the widget hierarchy, and uses a method channel to
 /// communicate with the platform code.
 class CupertinoWebView implements WebViewPlatform {
+
+  @override
+  WebViewPlatformController platformController;
+
   @override
   Widget build({
     BuildContext context,
@@ -33,8 +37,12 @@ class CupertinoWebView implements WebViewPlatform {
         if (onWebViewPlatformCreated == null) {
           return;
         }
-        onWebViewPlatformCreated(
-            MethodChannelWebViewPlatform(id, webViewPlatformCallbacksHandler));
+        final MethodChannelWebViewPlatform newPlatformController =
+        MethodChannelWebViewPlatform(id, webViewPlatformCallbacksHandler);
+        platformController = newPlatformController;
+        onWebViewPlatformCreated(newPlatformController);
+//        onWebViewPlatformCreated(
+//            MethodChannelWebViewPlatform(id, webViewPlatformCallbacksHandler));
       },
       gestureRecognizers: gestureRecognizers,
       creationParams:
@@ -44,11 +52,11 @@ class CupertinoWebView implements WebViewPlatform {
   }
 
   @override
-  Future<List<Cookie>> getCookies(String url) => MethodChannelWebViewPlatform.getCookies(url);
+  Future<List<Cookie>> getCookies(String url) => platformController?.getCookies(url);
 
   @override
-  Future<void> setCookies(String url, List<Cookie> cookies) => MethodChannelWebViewPlatform.setCookies(url, cookies);
+  Future<void> setCookies(String url, List<Cookie> cookies) => platformController?.setCookies(url, cookies);
 
   @override
-  Future<bool> clearCookies() => MethodChannelWebViewPlatform.clearCookies();
+  Future<bool> clearCookies() => platformController?.clearCookies();
 }
