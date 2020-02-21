@@ -8,6 +8,13 @@ import android.os.Build;
 import android.os.Build.VERSION_CODES;
 import android.webkit.CookieManager;
 import android.webkit.ValueCallback;
+
+import java.net.HttpCookie;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+
 import io.flutter.plugin.common.BinaryMessenger;
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
@@ -41,6 +48,23 @@ class FlutterCookieManager implements MethodCallHandler {
 
   void dispose() {
     methodChannel.setMethodCallHandler(null);
+  }
+
+  private String getUrlArgument(MethodCall methodCall, final Result result) {
+    if (!(methodCall.arguments() instanceof Map)) {
+      result.error(
+              "Invalid argument. Expected Map<String, dynamic>, received " + (methodCall.arguments()
+                      .getClass()
+                      .getSimpleName()), null, null);
+      return null;
+    }
+
+    String url = methodCall.argument("url");
+    if (url == null || url.length() == 0) {
+      result.error("Missing url argument", null, null);
+      return null;
+    }
+    return url;
   }
 
   private void getCookies(final MethodCall methodCall, final Result result) {

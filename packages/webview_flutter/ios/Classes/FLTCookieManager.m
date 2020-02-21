@@ -19,6 +19,10 @@
 - (void)handleMethodCall:(FlutterMethodCall *)call result:(FlutterResult)result {
   if ([[call method] isEqualToString:@"clearCookies"]) {
     [self clearCookies:result];
+  } else if ([[call method] isEqualToString:@"setCookies"]) {
+    [self setCookies:call result:result];
+  } else if ([[call method] isEqualToString:@"clearCookies"]) {
+    [self clearCookies:result];
   } else {
     result(FlutterMethodNotImplemented);
   }
