@@ -362,6 +362,23 @@ abstract class WebViewPlatform {
     Set<Factory<OneSequenceGestureRecognizer>> gestureRecognizers,
   });
 
+  /// Gets the current cookies.
+  ///
+  /// On iOS, returns all cookies from the [WebView] instance.
+  /// On Android, only returns the cookies for the current URL from the [WebView] instance.
+  Future<List<Cookie>> getCookies(String url) {
+    throw UnimplementedError(
+        "WebView getCookies is not implemented on the current platform");
+  }
+
+  /// Sets the specified cookies.
+  ///
+  /// `cookies` must not be null.
+  Future<void> setCookies(String url, List<Cookie> cookies) {
+    throw UnimplementedError(
+        "WebView setCookies is not implemented on the current platform");
+  }
+
   /// Clears all cookies for all [WebView] instances.
   ///
   /// Returns true if cookies were present before clearing, else false.

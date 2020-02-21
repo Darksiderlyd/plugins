@@ -25,6 +25,12 @@ class FlutterCookieManager implements MethodCallHandler {
   @Override
   public void onMethodCall(MethodCall methodCall, Result result) {
     switch (methodCall.method) {
+      case "getCookies":
+        getCookies(methodCall, result);
+        break;
+      case "setCookies":
+        setCookies(methodCall, result);
+        break;
       case "clearCookies":
         clearCookies(result);
         break;
@@ -35,6 +41,41 @@ class FlutterCookieManager implements MethodCallHandler {
 
   void dispose() {
     methodChannel.setMethodCallHandler(null);
+  }
+
+  private void getCookies(final MethodCall methodCall, final Result result) {
+    String url = getUrlArgument(methodCall, result);
+    if (url == null) {
+      return;
+    }
+
+    CookieManager cookieManager = CookieManager.getInstance();
+    final String cookie = cookieManager.getCookie(url);
+    result.success(cookie != null ? cookie : "");
+  }
+
+  private void setCookies(final MethodCall methodCall, final Result result) {
+    String url = getUrlArgument(methodCall, result);
+    if (url == null) {
+      return;
+    }
+
+    final List<String> cookies = methodCall.argument("cookies");
+    if (cookies == null) {
+      result.error("Missing cookies argument", null, null);
+      return;
+    }
+
+    final CookieManager cookieManager = CookieManager.getInstance();
+    for (String cookie : cookies) {
+      cookieManager.setCookie(url, cookie);
+    }
+
+    if (Build.VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP) {
+      cookieManager.flush();
+    }
+
+    result.success(true);
   }
 
   private static void clearCookies(final Result result) {
